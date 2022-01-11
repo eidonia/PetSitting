@@ -1,33 +1,69 @@
 package com.valiriel.handleclientlist.domain.model
 
+import com.valiriel.handleclientlist.data.local.entity.*
+import kotlin.random.Random
+
 class Client(
-    val id: Long = 0,
     val name: String?,
-    val phoneNumber: String?,
-    val email: String?,
-    val address: Address?,
-    val animal: MutableList<Animal> = mutableListOf(),
-    val veterinary: Person?,
-    val emergencyContact: Person?,
-    val informationsEntity: Informations?
+    var phoneNumber: String?,
+    var email: String?,
+    var address: Address?,
+    var animal: MutableList<Animal> = mutableListOf(),
+    var veterinary: Person?,
+    var emergencyContact: Person?,
+    var informations: Informations?,
+    val id: String? = name + Random.nextInt()
+)
+
+fun Client.toClientEntity() = ClientEntity(
+    id = id,
+    name = name,
+    phoneNumber = phoneNumber,
+    email = email,
+    address = address?.toAddressEntity(),
+    veterinary = veterinary?.toPersonEntity(),
+    emergencyContact = emergencyContact?.toPersonEntity(),
+    informations = informations?.toInformationsEntity()
+
 )
 
 data class Address(
-    val street: String?,
-    val zipCode: String?,
-    val city: String?
+    var street: String?,
+    var zipCode: String?,
+    var city: String?
 )
 
+fun Address.toAddressEntity() = AddressEmbedded(
+    street = street,
+    zipCode = zipCode,
+    city = city
+)
+
+
 data class Person(
-    val name: String?,
-    val phoneNumber: String?
+    var name: String?,
+    var phoneNumber: String?
+)
+
+private fun Person.toPersonEntity() = PersonEmbedded(
+    name = name,
+    phoneNumber = phoneNumber
 )
 
 data class Informations(
-    val petRide: Boolean?,
-    val forbiddenRoom: String?,
-    val food: String?,
-    val drink: String?,
-    val frequency: String?,
-    val hoursVisits: String?
+    var petRide: Boolean?,
+    var forbiddenRoom: String?,
+    var food: String?,
+    var drink: String?,
+    var frequency: String?,
+    var hoursVisits: String?
+)
+
+private fun Informations.toInformationsEntity() = InformationsEmbedded(
+    petRide = petRide,
+    forbiddenRoom = forbiddenRoom,
+    food = food,
+    drink = drink,
+    frequency = frequency,
+    hoursVisits = hoursVisits
 )

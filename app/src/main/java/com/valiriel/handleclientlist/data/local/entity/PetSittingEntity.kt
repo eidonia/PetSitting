@@ -6,28 +6,20 @@ import androidx.room.ForeignKey.NO_ACTION
 import androidx.room.PrimaryKey
 import com.valiriel.handleclientlist.domain.model.PetSitting
 
-@Entity(
-    foreignKeys = [
-        ForeignKey(
-            entity = ClientEntity::class,
-            parentColumns = arrayOf("id"),
-            childColumns = arrayOf("client"),
-            onDelete = NO_ACTION
-        )
-    ]
-)
+@Entity
 data class PetSittingEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long,
-    val client: Long?,
-    val numVisits: Int?,
-    val dateBegin: Long?,
-    val dateEnd: Long?,
-    val numBill: Int?,
-    val price: Float?
+    @PrimaryKey(autoGenerate = false)
+    val id: String?,
+    var client: String?,
+    var numVisits: Int?,
+    var dateBegin: Long?,
+    var dateEnd: Long?,
+    var numBill: Int?,
+    var price: Float?
 )
 
 fun PetSittingEntity.toPetSitting() = PetSitting(
+    id = id,
     numVisits = numVisits,
     dateBegin = dateBegin,
     dateEnd = dateEnd,

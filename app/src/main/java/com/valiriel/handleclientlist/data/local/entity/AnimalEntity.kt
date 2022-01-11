@@ -7,24 +7,25 @@ import com.valiriel.handleclientlist.domain.model.Treatment
 
 @Entity
 data class AnimalEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    @PrimaryKey(autoGenerate = false)
+    val  id: String,
+    val owner: String?,
     val name: String?,
-    val age: Int?,
-    val treatment: TreatmentEmbedded?
+    var age: Int?,
+    var treatment: TreatmentEmbedded?
 )
 
 fun AnimalEntity.toAnimal() = Animal(
     id = id,
+    owner = owner,
     name = name,
     age = age,
     treatment = treatment?.toTreatment()
 )
 
 data class TreatmentEmbedded(
-    @PrimaryKey(autoGenerate = true)
-    val name: String?,
-    val instructions: String?
+    var name: String?,
+    var instructions: String?
 )
 
 fun TreatmentEmbedded.toTreatment() = Treatment(

@@ -10,15 +10,15 @@ import com.valiriel.handleclientlist.domain.model.Person
 
 @Entity
 data class ClientEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long,
+    @PrimaryKey(autoGenerate = false) val id: String?,
     val name: String?,
-    val phoneNumber: String?,
-    val email: String?,
+    var phoneNumber: String?,
+    var email: String?,
     @Embedded val address: AddressEmbedded?,
-    val animal: List<Long>?,
-    @Embedded val veterinary: PersonEmbedded?,
-    @Embedded val emergencyContact: PersonEmbedded?,
-    @Embedded val informations: InformationsEmbedded?
+    var animal: List<String>? = mutableListOf(),
+    @Embedded var veterinary: PersonEmbedded?,
+    @Embedded var emergencyContact: PersonEmbedded?,
+    @Embedded var informations: InformationsEmbedded?
 )
 
 fun ClientEntity.toClient() = Client(
@@ -29,13 +29,13 @@ fun ClientEntity.toClient() = Client(
     address = address?.toAddress(),
     veterinary = veterinary?.toPerson(),
     emergencyContact = emergencyContact?.toPerson(),
-    informationsEntity = informations?.toInformations()
+    informations = informations?.toInformations()
 )
 
 data class AddressEmbedded(
-    val street: String?,
-    val zipCode: String?,
-    val city: String?
+    var street: String?,
+    var zipCode: String?,
+    var city: String?
 )
 
 fun AddressEmbedded.toAddress() = Address(
@@ -45,8 +45,8 @@ fun AddressEmbedded.toAddress() = Address(
 )
 
 data class PersonEmbedded(
-    val name: String?,
-    val phoneNumber: String?
+    var name: String?,
+    var phoneNumber: String?
 )
 
 fun PersonEmbedded.toPerson() = Person(
@@ -55,12 +55,12 @@ fun PersonEmbedded.toPerson() = Person(
 )
 
 data class InformationsEmbedded(
-    val petRide: Boolean?,
-    val forbiddenRoom: String?,
-    val food: String?,
-    val drink: String?,
-    val frequency: String?,
-    val hoursVisits: String?
+    var petRide: Boolean?,
+    var forbiddenRoom: String?,
+    var food: String?,
+    var drink: String?,
+    var frequency: String?,
+    var hoursVisits: String?
 )
 
 fun InformationsEmbedded.toInformations() = Informations(
